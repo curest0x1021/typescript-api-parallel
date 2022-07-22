@@ -3,6 +3,7 @@ import SendIcon from "@mui/icons-material/Send";
 import LoadingButton from "@mui/lab/LoadingButton";
 import React, { useEffect, useState } from "react";
 import "./index.css";
+import { useApi } from "../../actions/useApi";
 
 const DEFAUL_URL = "https://jsonplaceholder.typicode.com/posts/";
 
@@ -11,6 +12,9 @@ export default function Main() {
   const [count, setCount] = useState(3);
   const [urls, setUrls] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState('');
+
+  const { runInParallel } = useApi();
 
   useEffect(() => {
     let value: string[] = [];
@@ -20,6 +24,19 @@ export default function Main() {
     }
     setUrls(value);
   }, [count]);
+
+  const fetchData = async () => {
+    if (urls.length === 0 || concurrency === 0) {
+      alert("Invalid inputs");
+      return;
+    }
+
+    setLoading(true);
+    const res = await runInParallel(urls, concurrency);
+    const result = res.map((item) => item.id + ": " + item.title);
+    setResponse(result.join("\n"));
+    setLoading(false);
+  }
 
   return (
     <Container maxWidth="lg">
@@ -47,6 +64,7 @@ export default function Main() {
               variant="contained"
               endIcon={<SendIcon />}
               style={{ width: "160px", marginLeft: "auto" }}
+              onClick={fetchData}
             >
               Fetch Data
             </LoadingButton>
@@ -84,6 +102,7 @@ export default function Main() {
               disabled
               multiline
               rows={20}
+              value={response}
             />
           </div>
         </div>
