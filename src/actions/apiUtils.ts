@@ -6,7 +6,7 @@ export const ApiUtils = () => {
     headers: { "Content-Type": "application/json" },
   });
 
-  async function runAPI(props: { method: Method; url: string; data?: string }) {
+  async function runAPI(props: { method: Method; url: string; data?: string }): Promise<any> {
     try {
       const res = await axiosInstance.request({
         method: props.method,

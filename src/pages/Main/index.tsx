@@ -12,7 +12,7 @@ export default function Main() {
   const [count, setCount] = useState(3);
   const [urls, setUrls] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState('');
+  const [response, setResponse] = useState("");
 
   const { runInParallel } = useApi();
 
@@ -36,7 +36,7 @@ export default function Main() {
     const result = res.map((item) => item.id + ": " + item.title);
     setResponse(result.join("\n"));
     setLoading(false);
-  }
+  };
 
   return (
     <Container maxWidth="lg">

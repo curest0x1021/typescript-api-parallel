@@ -3,7 +3,7 @@ import { ApiUtils } from "./apiUtils";
 
 export const useApi = () => {
   const { runAPI } = ApiUtils();
-  async function runInParallel(urls: string[], concurrency: number) {
+  async function runInParallel(urls: string[], concurrency: number): Promise<any[]> {
     const dataPromise = await Promise.allSettled(
       chunks(urls, concurrency).map((items) => runAll(items))
     );
